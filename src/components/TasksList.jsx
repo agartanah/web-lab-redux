@@ -1,12 +1,12 @@
 import Task from "./Task";
 import "../styles/main.css"
-import { useAppContext } from "../contexts/TaskManagerContext";
 import { useState } from "react";
 import NoTasks from "./NoTasks"
 import { useSelector } from "react-redux";
+import selector from "../redux/selectors/selector";
 
 export default function ListTask() {
-    const listTasks = useSelector((state) => state.tasks.listTasks);
+    const { listTasks } = useSelector((state) => selector(state));
 
     const [ position, setPosition ] = useState({ x: 0, y: 0 });
     const [ draggedTask, setDraggedTask ] = useState(0);
