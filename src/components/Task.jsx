@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import "../styles/main.css"
-import { useAppContext } from "../contexts/TaskManagerContext";
 import { 
     shift
 } from "../data/localStorage";
 import { setCurrOperation, setCurrTask, setListTasks, setOpenTask } from "../redux/tasksSlice"; 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Task({ title, description, id, position, setPosition, draggedTask, setDraggedTask, currDraggedTask, setCurrDraggedTask }) {
     const { listTasks, openTask } = useSelector((state) => ({
         listTasks: state.tasks.listTasks,
         openTask: state.tasks.openTask
     }));
+    const dispatch = useDispatch();
 
     const pTitle = useRef(null);
     const pDescription = useRef(null);
@@ -81,7 +81,7 @@ export default function Task({ title, description, id, position, setPosition, dr
         if (currDraggedTask != id) return;
 
         setIsInfoOpen(false);
-        setOpenTask(0);
+        dispatch(setOpenTask(0));
 
         setPosition((prevPosition) => {    
             return { x: position.x, y: prevPosition.y + event.movementY };
@@ -105,8 +105,8 @@ export default function Task({ title, description, id, position, setPosition, dr
 
         setCurrDraggedTask(0);
         setDraggedTask(0);
-        setListTasks(array);
-        setOpenTask(id);
+        dispatch(setListTasks(array));
+        dispatch(setOpenTask(id));
     };
     
     return (
@@ -120,12 +120,12 @@ export default function Task({ title, description, id, position, setPosition, dr
                     event.stopPropagation();
                     
                     if (openTask == id) {
-                        setOpenTask(0);
+                        dispatch(setOpenTask(0));
 
                         return;
                     }
                     
-                    setOpenTask(id);
+                    dispatch(setOpenTask(id));
                 } }
             >
                 <div class="task-text">
@@ -140,8 +140,8 @@ export default function Task({ title, description, id, position, setPosition, dr
                     <button class="dell-button" onClick={ (event) => {
                         event.stopPropagation();
 
-                        setCurrTask({ id: id, title: title, description: description });
-                        setCurrOperation('del');
+                        dispatch(setCurrTask({ id: id, title: title, description: description }));
+                        dispatch(setCurrOperation('del'));
                     }}>
                     </button>
                 </div>
@@ -152,8 +152,8 @@ export default function Task({ title, description, id, position, setPosition, dr
                         <button className="share-button" onClick={ (event) => {
                             event.stopPropagation();
 
-                            setCurrTask({ id: id, title: pTitle, description: pDescription })
-                            setCurrOperation('share');
+                            dispatch(setCurrTask({ id: id, title: pTitle, description: pDescription }));
+                            dispatch(setCurrOperation('share'));
                         }}></button>
                         <button className="info-button" onClick={ (event) => {
                             event.stopPropagation();
@@ -169,8 +169,8 @@ export default function Task({ title, description, id, position, setPosition, dr
                         <button className="edit-button" onClick={ (event) => {
                             event.stopPropagation();
 
-                            setCurrTask({ id: id, title: pTitle, description: pDescription })
-                            setCurrOperation('edit');
+                            dispatch(setCurrTask({ id: id, title: pTitle, description: pDescription }));
+                            dispatch(setCurrOperation('edit'));
                         }}></button>
                     </div>
             }
