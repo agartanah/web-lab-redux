@@ -3,10 +3,13 @@ import {
     setTaskToLocalStorage
 } from "../data/localStorage";
 import { useState } from "react";
-import { useAppContext } from "../contexts/TaskManagerContext";
+// import { useAppContext } from "../contexts/TaskManagerContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setListTasks } from '../redux/tasksSlice';
 
 export default function FormTask() {
-    const { setListTasks, setIndex } = useAppContext();
+    const dispatch = useDispatch();
+    const listTasks = useSelector((state) => state.tasks.listTasks);
 
     const [ titleValue, setTitleValue ] = useState('');
     const [ descriptionValue, setDescriptionValue ] = useState('');
@@ -28,25 +31,22 @@ export default function FormTask() {
             description = 'Нет описания';
         }
 
-        setIndex(prevIndex => {
-            let newIndex = prevIndex + 1;
+        const newIndex = listTasks.length + 1;
 
-            setTaskToLocalStorage(newIndex, title, description);
-            setListTasks(prevTasks => [
-                { 
-                    id: newIndex, 
-                    title: title, 
-                    description: description 
-                },
-                ...prevTasks
-            ]);
+        setTaskToLocalStorage(newIndex, title, description);
 
-            setTitleValue('');
-            setDescriptionValue('');
-            setIsError(false);
+        dispatch(setListTasks([
+            {
+                id: newIndex,
+                title: title,
+                description: description
+            },
+            ...listTasks
+        ]));
 
-            return newIndex;
-        });
+        setTitleValue('');
+        setDescriptionValue('');
+        setIsError(false);
     }
 
     return (
