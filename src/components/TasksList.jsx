@@ -3,9 +3,10 @@ import "../styles/main.css"
 import { useAppContext } from "../contexts/TaskManagerContext";
 import { useState } from "react";
 import NoTasks from "./NoTasks"
+import { useSelector } from "react-redux";
 
 export default function ListTask() {
-    const { listTasks, openTask, setOpenTask } = useAppContext();
+    const listTasks = useSelector((state) => state.tasks.listTasks);
 
     const [ position, setPosition ] = useState({ x: 0, y: 0 });
     const [ draggedTask, setDraggedTask ] = useState(0);
@@ -20,8 +21,6 @@ export default function ListTask() {
                             title={ elem.title } 
                             description={ elem.description }
                             id={ elem.id } 
-                            openTask={ openTask }
-                            setOpenTask={ setOpenTask }
                             position={ position }
                             setPosition={ setPosition }
                             draggedTask={ draggedTask }
