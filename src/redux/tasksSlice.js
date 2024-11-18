@@ -8,7 +8,7 @@ const initialState = {
     index: 0
 };
 
-const taskManagerSlice = createSlice({
+const tasksSlice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
@@ -44,6 +44,6 @@ export const {
     setIndex,
     addTask,
     removeTask
-} = taskManagerSlice.actions;
+} = tasksSlice.actions;
 
-export default taskManagerSlice.reducer;
+export default tasksSlice.reducer;
