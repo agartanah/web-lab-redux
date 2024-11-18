@@ -32,7 +32,7 @@ function readLocalStorage() {
         return
     }
 
-    array.sort((a, b) => a.id - b.id); // сортировка элементов к порядку их добавления
+    array.sort((a, b) => a.id - b.id);
     array.reverse();
 
     return array || [];
@@ -72,9 +72,10 @@ function shift(id, newId, listTasks) {
         subArray = [subArray[subArray.length - 1], ...subArray];
         subArray.splice(subArray.length - 1, 1);
 
-        for (let index = 0; index < subArray.length; ++index) {
-            subArray[index].id = index + newId;
-        }
+        subArray = subArray.map((task, index) => ({
+            ...task,
+            id: newId + index,
+        }));
 
         array.splice(newId - 1, id - newId + 1, ...subArray);
     }
@@ -85,9 +86,10 @@ function shift(id, newId, listTasks) {
         subArray = [...subArray, subArray[0]];
         subArray.splice(0, 1);
 
-        for (let index = 0; index < subArray.length; ++index) {
-            subArray[index].id = index + id;
-        }
+        subArray = subArray.map((task, index) => ({
+            ...task,
+            id: id + index,
+        }));
 
         array.splice(id - 1, newId - id + 1, ...subArray);
     }
