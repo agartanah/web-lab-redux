@@ -9,7 +9,7 @@ import selector from "../redux/selectors/selector";
 
 export default function FormTask() {
     const dispatch = useDispatch();
-    const listTasks = useSelector((state) => selector(state));
+    const { listTasks } = useSelector((state) => selector(state));
 
     const [ titleValue, setTitleValue ] = useState('');
     const [ descriptionValue, setDescriptionValue ] = useState('');
