@@ -4,9 +4,14 @@ import { useAppContext } from "../contexts/TaskManagerContext";
 import { 
     shift
 } from "../data/localStorage";
+import { setCurrOperation, setCurrTask, setListTasks, setOpenTask } from "../redux/tasksSlice"; 
+import { useSelector } from "react-redux";
 
-export default function Task({ title, description, id, openTask, setOpenTask, position, setPosition, draggedTask, setDraggedTask, currDraggedTask, setCurrDraggedTask }) {
-    const { setCurrTask, setCurrOperation, setListTasks, listTasks } = useAppContext();
+export default function Task({ title, description, id, position, setPosition, draggedTask, setDraggedTask, currDraggedTask, setCurrDraggedTask }) {
+    const { listTasks, openTask } = useSelector((state) => ({
+        listTasks: state.tasks.listTasks,
+        openTask: state.tasks.openTask
+    }));
 
     const pTitle = useRef(null);
     const pDescription = useRef(null);
