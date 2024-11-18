@@ -1,14 +1,20 @@
-import { useAppContext } from "../contexts/TaskManagerContext";
 import React, { useState, useRef, useEffect } from 'react';
 import { 
     setTaskToLocalStorage
 } from "../data/localStorage";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrOperation } from "../redux/tasksSlice";
 
 export default function EditModal() {
-    const { editModal, currTask, currOperation, setCurrOperation } = useAppContext();
+    const { currTask, currOperation } = useSelector((state) => ({
+        currTask: state.tasks.currTask, 
+        currOperation: state.tasks.currOperation
+    }));
+    const dispatch = useDispatch();
 
     const inputTitle = useRef(null);
     const inputDescription = useRef(null);
+    const editModal = useRef(null);
     const editModalContent = useRef(null);
 
     const [ isError, setIsError ] = useState(false);
@@ -32,7 +38,7 @@ export default function EditModal() {
             editModal.current.close();
             
             setIsError(false);
-            setCurrOperation('');
+            dispatch(setCurrOperation(''));
         }
     }
     
@@ -52,14 +58,14 @@ export default function EditModal() {
     
         editModal.current.close();
 
-        setCurrOperation('');
+        dispatch(setCurrOperation(''));
     }
     
     function onClickCancel() {
         editModal.current.close();
 
         setIsError(false);
-        setCurrOperation('');
+        dispatch(setCurrOperation(''));
     }
 
     return (

@@ -1,9 +1,15 @@
-import { useAppContext } from "../contexts/TaskManagerContext";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useRef, useEffect } from 'react';
+import { setCurrOperation } from "../redux/tasksSlice";
 
 export default function ShareModal() {
-    const { shareModal, currTask, currOperation, setCurrOperation } = useAppContext();
+    const { currTask, currOperation } = useSelector((state) => ({
+        currTask: state.tasks.currTask, 
+        currOperation: state.tasks.currOperation
+    }));
+    const dispatch = useDispatch();
 
+    const shareModal = useRef(null)
     const shareModalContent = useRef(null);
 
     useEffect(() => {
@@ -16,7 +22,7 @@ export default function ShareModal() {
         if (event.target != shareModalContent.current) {
             shareModal.current.close();
             
-            setCurrOperation('');
+            dispatch(setCurrOperation(''));
         }
     }
 
@@ -30,7 +36,7 @@ export default function ShareModal() {
     
         shareModal.current.close();
 
-        setCurrOperation('');
+        dispatch(setCurrOperation(''));
     }
     
     function onClickVk(event) {
@@ -40,7 +46,8 @@ export default function ShareModal() {
         
         shareModal.current.close();
 
-        setCurrOperation('');
+        dispatch(setCurrOperation(''));
+
     }
     
     function onClickTelegram(event) {
@@ -50,7 +57,7 @@ export default function ShareModal() {
     
         shareModal.current.close();
 
-        setCurrOperation('');
+        dispatch(setCurrOperation(''));
     }
 
     function onClickWhatsup(event) {
@@ -60,7 +67,7 @@ export default function ShareModal() {
     
         shareModal.current.close();
 
-        setCurrOperation('');
+        dispatch(setCurrOperation(''));
     }
     
     function onClickFacebook(event) {
@@ -70,7 +77,7 @@ export default function ShareModal() {
     
         shareModal.current.close();
     
-        setCurrOperation('');
+        dispatch(setCurrOperation(''));
     }
 
     return (

@@ -1,11 +1,19 @@
-import { useAppContext } from "../contexts/TaskManagerContext";
 import React, { useRef, useEffect } from 'react';
 import { 
     deleteTaskFromLocalStorage
 } from "../data/localStorage";
+import { setOpenTask, setCurrOperation, setListTasks } from "../redux/tasksSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function DeleteModal() {
-    const { delModal, openTask, setOpenTask, currTask, currOperation, setCurrOperation, setListTasks, setIndex } = useAppContext();
+    const { openTask, currTask, currOperation } = useSelector((state) => ({
+        openTask: state.tasks.openTask,
+        currTask: state.tasks.currTask,
+        currOperation: state.tasks.currOperation
+    }));
+    const dispatch = useDispatch();
+
+    const delModal = useRef(null);
     const delModalContent = useRef(null);
 
     useEffect(() => {
@@ -19,28 +27,26 @@ export default function DeleteModal() {
             event.target != delModalContent.current) {
             delModal.current.close();
             
-            setCurrOperation('');
+            dispatch(setCurrOperation(''));
         }
     }
 
     function onClickYes() {
         delModal.current.close();
-
-        setIndex(prevIndex => prevIndex - 1);
         
         if (openTask == currTask.id) {
-            setOpenTask('');
+            dispatch(setOpenTask(''));
         }
 
-        setListTasks(deleteTaskFromLocalStorage(currTask.id));
+        dispatch(setListTasks(deleteTaskFromLocalStorage(currTask.id)));
         
-        setCurrOperation('');
+        dispatch(setCurrOperation(''));
     }
 
     function onClickNo() {
         delModal.current.close();
 
-        setCurrOperation('');
+        dispatch(setCurrOperation(''));
     }
 
     return (
