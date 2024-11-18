@@ -1,12 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import React, { useRef, useEffect } from 'react';
 import { setCurrOperation } from "../redux/tasksSlice";
+import selector from "../redux/selectors/selector";
 
 export default function ShareModal() {
-    const { currTask, currOperation } = useSelector((state) => ({
-        currTask: state.tasks.currTask, 
-        currOperation: state.tasks.currOperation
-    }));
+    const { currTask, currOperation } = useSelector((state) => selector(state));
     const dispatch = useDispatch();
 
     const shareModal = useRef(null)

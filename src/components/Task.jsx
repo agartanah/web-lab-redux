@@ -5,12 +5,10 @@ import {
 } from "../data/localStorage";
 import { setCurrOperation, setCurrTask, setListTasks, setOpenTask } from "../redux/tasksSlice"; 
 import { useDispatch, useSelector } from "react-redux";
+import selector from "../redux/selectors/selector";
 
 export default function Task({ title, description, id, position, setPosition, draggedTask, setDraggedTask, currDraggedTask, setCurrDraggedTask }) {
-    const { listTasks, openTask } = useSelector((state) => ({
-        listTasks: state.tasks.listTasks,
-        openTask: state.tasks.openTask
-    }));
+    const { listTasks, openTask } = useSelector((state) => selector(state));
     const dispatch = useDispatch();
 
     const pTitle = useRef(null);

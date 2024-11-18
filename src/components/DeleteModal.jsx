@@ -4,13 +4,10 @@ import {
 } from "../data/localStorage";
 import { setOpenTask, setCurrOperation, setListTasks } from "../redux/tasksSlice";
 import { useDispatch, useSelector } from "react-redux";
+import selector from '../redux/selectors/selector';
 
 export default function DeleteModal() {
-    const { openTask, currTask, currOperation } = useSelector((state) => ({
-        openTask: state.tasks.openTask,
-        currTask: state.tasks.currTask,
-        currOperation: state.tasks.currOperation
-    }));
+    const { openTask, currTask, currOperation } = useSelector((state) => selector(state));
     const dispatch = useDispatch();
 
     const delModal = useRef(null);

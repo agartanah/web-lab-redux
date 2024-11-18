@@ -4,12 +4,10 @@ import {
 } from "../data/localStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrOperation } from "../redux/tasksSlice";
+import selector from '../redux/selectors/selector';
 
 export default function EditModal() {
-    const { currTask, currOperation } = useSelector((state) => ({
-        currTask: state.tasks.currTask, 
-        currOperation: state.tasks.currOperation
-    }));
+    const { currTask, currOperation } = useSelector((state) => selector(state));
     const dispatch = useDispatch();
 
     const inputTitle = useRef(null);

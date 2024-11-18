@@ -3,13 +3,13 @@ import {
     setTaskToLocalStorage
 } from "../data/localStorage";
 import { useState } from "react";
-// import { useAppContext } from "../contexts/TaskManagerContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setListTasks } from '../redux/tasksSlice';
+import selector from "../redux/selectors/selector";
 
 export default function FormTask() {
     const dispatch = useDispatch();
-    const listTasks = useSelector((state) => state.tasks.listTasks);
+    const listTasks = useSelector((state) => selector(state));
 
     const [ titleValue, setTitleValue ] = useState('');
     const [ descriptionValue, setDescriptionValue ] = useState('');
