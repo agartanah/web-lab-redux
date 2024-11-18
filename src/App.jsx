@@ -4,21 +4,20 @@ import ListTask from './components/TasksList'
 import { useEffect } from 'react'
 import { readLocalStorage } from './data/localStorage';
 import DeleteModal from './components/DeleteModal';
-import { useAppContext } from './contexts/TaskManagerContext';
 import EditModal from './components/EditModal';
 import ShareModal from './components/ShareModal';
 import Backdrop from './components/Backdrop';
+import { setListTasks } from './redux/tasksSlice';
+import { useDispatch } from 'react-redux';
 
 function App() {
-  const { setIndex, setListTasks } = useAppContext();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const localStorageElements = readLocalStorage();
 
     if (localStorageElements) {
-      setIndex(localStorageElements.length);
-      
-      setListTasks(localStorageElements);
+      dispatch(setListTasks(localStorageElements));
     }
   }, []);
 
